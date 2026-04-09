@@ -39,13 +39,13 @@ log p(x) = log p_z(f(x)) + log |det J_f(x)|
          = log p_z(z) + Σ s_k(x_A)     (Jacobian is triangular → det = product of diagonals)
 ```
 
-| Parameter | Value |
-|-----------|-------|
-| Coupling layers | 4 |
-| Hidden dim | 256 |
-| Batch size | 256 |
+| Parameter | Value       |
+|-----------|-------------|
+| Coupling layers | 4           |
+| Hidden dim | 256         |
+| Batch size | 256         |
 | Learning rate | 1e-4 (Adam) |
-| Epochs | 30 |
+| Epochs | 50          |
 
 **Loss:** −286 → −154 (negative log-likelihood, lower is better)
 

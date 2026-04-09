@@ -86,6 +86,83 @@ Three GAN notebooks of increasing complexity:
 
 ---
 
+## When to Use Which Network?
+
+Each family of generative models has its own strengths, weaknesses, and ideal use cases. This quick guide helps you pick the right tool for a given problem.
+
+### Autoencoders (AE / VAE)
+
+**Primary use:** learning a compact, structured representation of the data.
+
+- **Use cases:** dimensionality reduction, image denoising, anomaly detection (abnormal samples have high reconstruction cost), interpolation between examples, recommendation systems.
+- **VAE advantage:** the latent space is continuous and regularized → new samples can be drawn and interpolated coherently.
+- **Limitations:** generated image quality is lower than GANs and diffusion models. A plain AE does not guarantee semantic structure in the latent space.
+
+---
+
+### Autoregressive Models (GPT, PixelCNN)
+
+**Primary use:** modeling sequences by computing an exact probability over each element.
+
+- **Use cases:** text generation (ChatGPT, Copilot), code completion, automatic captioning, pixel-by-pixel image generation (PixelCNN), symbolic music generation.
+- **Key advantage:** exact probability p(x) — useful for lossless compression and model evaluation.
+- **Limitations:** generation is **sequential** (one token at a time), so inference is slow and cannot be parallelized. Context is bounded by the attention window size.
+
+---
+
+### GANs (DCGAN, WGAN-GP, Conditional)
+
+**Primary use:** generating highly realistic, high-resolution images.
+
+- **Use cases:** face synthesis (StyleGAN), image super-resolution, data augmentation, artistic style transfer, attribute-guided generation (Conditional GAN).
+- **Key advantage:** visual quality often surpasses other methods at high resolutions; inference is fast.
+- **Limitations:** training is **unstable** and sensitive to hyperparameters, prone to *mode collapse* (generator converges to a single output type), no explicit log-likelihood making quantitative evaluation difficult.
+
+---
+
+### Diffusion Models (DDPM, DDIM)
+
+**Primary use:** generating very high quality data with stable training.
+
+- **Use cases:** image generation (Stable Diffusion, DALL-E 2, Midjourney), inpainting, denoising, audio synthesis (DiffWave), molecule generation in computational chemistry.
+- **Key advantage:** current state-of-the-art image quality, **very stable** training compared to GANs, flexible conditioning (text, class label, image).
+- **Limitations:** inference is **slow** — requires many denoising steps (mitigated by DDIM). High computational cost at both training and inference time.
+
+---
+
+### Flow-Based Models (RealNVP)
+
+**Primary use:** computing exact probability density while supporting generation and perfect inversion.
+
+- **Use cases:** density estimation, anomaly detection (via log-likelihood score), audio generation (WaveGlow, WaveFlow), data compression, physics and finance simulations.
+- **Key advantage:** **exact likelihood** + **exact inversion** (x → z and z → x are both tractable) — something neither VAEs nor GANs can offer.
+- **Limitations:** transformations must be **bijective** (strong architectural constraint), which limits expressiveness. Underperform GANs and diffusion models on complex high-resolution image data.
+
+---
+
+### Energy-Based Models (JEM)
+
+**Primary use:** defining an implicit distribution through an energy function, unifying generation and classification in a single model.
+
+- **Use cases:** adversarially robust classification, out-of-distribution (OOD) detection, data scoring and ranking, modeling physical systems (Boltzmann machines).
+- **Key advantage:** **unified generative + discriminative** model — one network does both. Naturally robust to input perturbations.
+- **Limitations:** MCMC sampling (Langevin dynamics) is **slow and hard to stabilize**. The partition function Z is intractable, complicating evaluation. Training is delicate and prone to divergence.
+
+---
+
+### Comparison Table
+
+| Model | Exact likelihood | Generation speed | Image quality | Conditional control | Training stability |
+|-------|:---:|:---:|:---:|:---:|:---:|
+| Autoencoder / VAE | No (ELBO) | Fast | Moderate | Yes (VAE) | Stable |
+| Autoregressive | **Yes** | Slow | Good | Yes | Stable |
+| GAN | No | **Fast** | **Very high** | Yes | Unstable |
+| Diffusion | No | Slow | **Very high** | **Very flexible** | **Very stable** |
+| Flow-Based | **Yes** | Moderate | Moderate | Limited | Stable |
+| Energy-Based | No | Very slow | Moderate | Yes | Difficult |
+
+---
+
 ## Tech Stack
 
 - **Framework:** PyTorch

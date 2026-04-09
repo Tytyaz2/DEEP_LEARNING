@@ -45,16 +45,6 @@ Each block: Conv2D → GroupNorm → GELU
 
 **Loss:** MSE between predicted noise ε̂ and actual noise ε added at timestep t
 
-## Training Configuration
-
-| Parameter | Value |
-|-----------|-------|
-| Timesteps T | 500 |
-| Batch size | 100 |
-| Learning rate | 1e-3 (linear decay) |
-| Optimizer | Adam |
-| Device | CUDA |
-
 ## Key Concepts
 
 | Concept | Description |
