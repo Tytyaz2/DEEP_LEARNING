@@ -6,7 +6,7 @@ A curated collection of deep learning generative model implementations, built fr
 
 | # | Project | Models | Dataset | Notebook |
 |---|---------|--------|---------|----------|
-| 1 | [Autoencoders](#1-autoencoders) | AE, VAE, VAE-CelebA | FashionMNIST, CelebA | `01_Autoencoders/` |
+| 1 | [Autoencoders](#1-autoencoders) | AE, VAE, VAE-CelebA, VQVAE | FashionMNIST, CelebA | `01_Autoencoders/` |
 | 2 | [Autoregressive Models](#2-autoregressive-models) | GPT, PixelCNN | Wine Reviews, FashionMNIST | `02_Autoregressive_Models/` |
 | 3 | [Generative Adversarial Networks](#3-generative-adversarial-networks) | DCGAN, WGAN-GP, Conditional WGAN-GP | CelebA | `03_Generative_Adversarial_Networks/` |
 | 4 | [Diffusion Models](#4-diffusion-models) | DDPM, DDIM (conditional) | Sprites 16x16 | `04_Diffusion_Models/` |
@@ -24,8 +24,9 @@ Three notebooks exploring the autoencoder family:
 - **Autoencoder** — Convolutional AE on FashionMNIST with a 2D latent space; MSE reconstruction loss converges to ~0.033 after 10 epochs.
 - **Variational Autoencoder (VAE)** — VAE with reparameterization trick (β=1.5) on FashionMNIST; combines BCE reconstruction + KL divergence.
 - **VAE on CelebA** — Same VAE architecture scaled to 64×64 celebrity face images.
+- **VQVAE** — Replaces the continuous latent space with a **discrete codebook** (K=512 vectors). Each 32×32 image is compressed to a 8×8 grid of integers via nearest-neighbour lookup. Training uses the straight-through estimator to backpropagate through the non-differentiable argmin. Foundation of DALL-E 1.
 
-**Key concepts:** encoder/decoder, latent space, reparameterization trick, ELBO loss, KL divergence.
+**Key concepts:** encoder/decoder, latent space, reparameterization trick, ELBO loss, KL divergence, vector quantization, codebook, straight-through estimator, commitment loss.
 
 ---
 
@@ -177,7 +178,8 @@ Each family of generative models has its own strengths, weaknesses, and ideal us
 │   ├── README.md
 │   ├── Autoencoder.ipynb
 │   ├── VariationalAutoEncoder.ipynb
-│   └── VariationalAutoEncoder_CelebA.ipynb
+│   ├── VariationalAutoEncoder_CelebA.ipynb
+│   └── VQVAE.ipynb
 ├── 02_Autoregressive_Models/
 │   ├── README.md
 │   ├── auto_regressive_model.ipynb
